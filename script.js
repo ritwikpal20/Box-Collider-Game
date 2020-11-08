@@ -1,5 +1,7 @@
 let paintbox = document.getElementById('paintbox')
 let context = paintbox.getContext('2d')
+let lives = document.getElementById('lives')
+let count = 3
 let gameOn = true
 
 
@@ -50,34 +52,48 @@ class Bullet extends Box {
 }
 
 
-setInterval(() => {
+let bulletAndPlayerId = setInterval(() => {
     let b = new Bullet(5)
-    if (!gameOn) {
-        alert("game over")
-        return
-    }
+    // if (!gameOn) {
+
+    // }
     function fire() {
         context.clearRect(b.x, b.y, b.size, b.size)
         b.move()
         drawBox(b)
-        if (isCollided(player, b))
-            gameOn = false
-        window.requestAnimationFrame(fire)
-    }
+        if (isCollided(player, b)) {
+            count--
+            context.clearRect(b.x, b.y, b.size, b.size)
+            b.x = -(b.size + 10)
+            lives.innerText = `Lives left : ${count}`
 
-    fire()
-}, 500)
+            alert("1 life decreased")
+
+            if (count == 0) {
+                gameOn = false
+                clearInterval(bulletAndPlayerId)
+                alert("Game Over . Start New Game")
+
+                location.reload()
+            }
+        }
+        if (gameOn)
+            window.requestAnimationFrame(fire)
+    }
+    if (gameOn)
+        fire()
+}, 700)
 
 
 let player = new Player()
 let e1 = new Enemy(5)
 let e2 = new Enemy(10)
-let e3 = new Enemy(15)
-let e4 = new Enemy(17)
+let e3 = new Enemy(12)
+let e4 = new Enemy(14)
 e1.x = 120
 e2.x = 290
-e3.x = 460
-e4.x = 630
+e3.x = 480
+e4.x = 650
 
 
 function isCollided(enemy, player) {
@@ -102,7 +118,7 @@ let btnDown = document.getElementById('btnDown')
 
 let yspeedClearIntervalIdUp
 btnUp.addEventListener('mousedown', () => {
-    player.yspeed = 5
+    player.yspeed = 3
     yspeedClearIntervalIdUp = setInterval(() => {
         if (player.y < 0)
             clearInterval(yspeedClearIntervalIdUp)
@@ -121,7 +137,7 @@ btnUp.addEventListener('mouseup', () => {
 
 let yspeedClearIntervalIdDown
 btnDown.addEventListener('mousedown', () => {
-    player.yspeed = 5
+    player.yspeed = 3
     yspeedClearIntervalIdDown = setInterval(() => {
         if (player.y + player.size > 450)
             clearInterval(yspeedClearIntervalIdDown)
@@ -141,7 +157,7 @@ btnDown.addEventListener('mouseup', () => {
 window.addEventListener("keydown", (event) => {
     switch (event.key) {
         case "ArrowDown":
-            player.yspeed = 5
+            player.yspeed = 4
             yspeedClearIntervalIdDown = setInterval(() => {
                 if (player.y + player.size > 450)
                     clearInterval(yspeedClearIntervalIdDown)
@@ -153,7 +169,7 @@ window.addEventListener("keydown", (event) => {
             }, 0)
             break;
         case "ArrowUp":
-            player.yspeed = 5
+            player.yspeed = 4
             yspeedClearIntervalIdUp = setInterval(() => {
                 if (player.y < 0)
                     clearInterval(yspeedClearIntervalIdUp)
@@ -286,10 +302,6 @@ paintbox.addEventListener('mouseup', () => {
 
 //We can the use requestAnimationFrame() this way as well
 function gameLoop() {
-    if (!gameOn) {
-        alert("game over")
-        return
-    }
     context.clearRect(player.x, player.y, player.size, player.size)
     context.clearRect(e1.x, e1.y, e1.size, e1.size)
     context.clearRect(e2.x, e2.y, e2.size, e2.size)
@@ -306,16 +318,31 @@ function gameLoop() {
 
 
     if (isCollided(e1, player) || isCollided(e2, player) || isCollided(e3, player) || isCollided(e4, player)) {
-        gameOn = false
+        count--
+
+        alert("1 life decreased")
+
+        player.speed = 0
+        player.x = player.x - 2 * player.size
+        lives.innerText = `Lives left : ${count}`
+        if (count == 0) {
+            gameOn = false
+            alert("Game Over . Start New Game")
+            location.reload()
+        }
     }
     drawBox(player)
     drawBox(e1)
     drawBox(e2)
     drawBox(e3)
     drawBox(e4)
+    // if (!gameOn) {
 
-    window.requestAnimationFrame(gameLoop)
+    // }
+    if (gameOn)
+        window.requestAnimationFrame(gameLoop)
 }
-gameLoop()
+if (gameOn)
+    gameLoop()
 
 console.log("This line gets printed")
