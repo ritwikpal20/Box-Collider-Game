@@ -41,7 +41,7 @@ class Enemy extends Box {
 
 class Bullet extends Box {
     constructor(speed) {
-        super(10, "darkred")
+        super(10, "red")
         this.speed = speed
         this.x = 800
         this.y = Math.floor(Math.random() * 450)
@@ -66,15 +66,19 @@ let bulletAndPlayerId = setInterval(() => {
             context.clearRect(b.x, b.y, b.size, b.size)
             b.x = -(b.size + 10)
             lives.innerText = `Lives left : ${count}`
+            setTimeout(() => {
+                alert("1 life decreased")
+            }, 0)
 
-            alert("1 life decreased")
 
             if (count == 0) {
                 gameOn = false
                 clearInterval(bulletAndPlayerId)
-                alert("Game Over . Start New Game")
+                setTimeout(() => {
+                    alert("Game Over . Start New Game")
 
-                location.reload()
+                    location.reload()
+                }, 0)
             }
         }
         if (gameOn)
@@ -134,6 +138,25 @@ btnUp.addEventListener('mouseup', () => {
     clearInterval(yspeedClearIntervalIdUp)
 })
 
+btnUp.addEventListener('pointerdown', () => {
+    player.yspeed = 3
+    yspeedClearIntervalIdUp = setInterval(() => {
+        if (player.y < 0)
+            clearInterval(yspeedClearIntervalIdUp)
+        else {
+            context.clearRect(player.x, player.y, player.size, player.size)
+            player.y -= player.yspeed
+            drawBox(player)
+        }
+    }, 0)
+})
+btnUp.addEventListener('pointerup', () => {
+    player.yspeed = 0
+    clearInterval(yspeedClearIntervalIdUp)
+})
+
+
+
 
 let yspeedClearIntervalIdDown
 btnDown.addEventListener('mousedown', () => {
@@ -152,6 +175,25 @@ btnDown.addEventListener('mouseup', () => {
     player.yspeed = 0
     clearInterval(yspeedClearIntervalIdDown)
 })
+
+btnDown.addEventListener('pointerdown', () => {
+    player.yspeed = 3
+    yspeedClearIntervalIdDown = setInterval(() => {
+        if (player.y + player.size > 450)
+            clearInterval(yspeedClearIntervalIdDown)
+        else {
+            context.clearRect(player.x, player.y, player.size, player.size)
+            player.y += player.yspeed
+            drawBox(player)
+        }
+    }, 0)
+})
+btnDown.addEventListener('pointerup', () => {
+    player.yspeed = 0
+    clearInterval(yspeedClearIntervalIdDown)
+})
+
+
 
 
 window.addEventListener("keydown", (event) => {
@@ -270,9 +312,15 @@ window.addEventListener("keyup", (event) => {
 paintbox.addEventListener('mousedown', () => {
     player.speed = 10
 })
+paintbox.addEventListener('pointerdown', () => {
+    player.speed = 10
+})
 
 //there is also a event called mouseup
 paintbox.addEventListener('mouseup', () => {
+    player.speed = 0
+})
+paintbox.addEventListener('pointerup', () => {
     player.speed = 0
 })
 
@@ -319,16 +367,22 @@ function gameLoop() {
 
     if (isCollided(e1, player) || isCollided(e2, player) || isCollided(e3, player) || isCollided(e4, player)) {
         count--
+        setTimeout(() => {
+            alert("1 life decreased")
+            context.clearRect(player.x, player.y, player.size, player.size)
+            player.x = player.x - 2 * player.size
+        }, 0)
 
-        alert("1 life decreased")
 
         player.speed = 0
-        player.x = player.x - 2 * player.size
+
         lives.innerText = `Lives left : ${count}`
         if (count == 0) {
             gameOn = false
-            alert("Game Over . Start New Game")
-            location.reload()
+            setTimeout(() => {
+                alert("Game Over . Start New Game")
+                location.reload()
+            }, 0)
         }
     }
     drawBox(player)
@@ -346,3 +400,11 @@ if (gameOn)
     gameLoop()
 
 console.log("This line gets printed")
+
+let WinId = setInterval(() => {
+    if (player.x > paintbox.width) {
+        alert("You Win the Game. Play again!!!")
+        location.reload()
+        clearInterval(WinId)
+    }
+}, 100)

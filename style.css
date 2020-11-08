@@ -1,3 +1,11 @@
+body{
+    background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)),url("./josh-rose-9YQGFzg0RiM-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
 #heading{
     text-align: center;
 
@@ -40,12 +48,14 @@
         display: inline-block;
         top: 0;
         right: 0;
+        margin: 20px;
     }
     #btnDown{
         position: relative;
         display: inline-block;
         top: 0;
         right: 0;
+        margin: 20px;
     }
     .outerwrap{
         margin: 20px;
