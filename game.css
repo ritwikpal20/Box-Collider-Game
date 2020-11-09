@@ -1,0 +1,74 @@
+body{
+    background-image: linear-gradient(rgba(58, 58, 58, 0.5), rgba(58, 58, 58, 0.5)),url("./josh-rose-9YQGFzg0RiM-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+#heading{
+    text-align: center;
+
+}
+#paintbox{
+    display: block;
+    border: solid 1px black;
+    margin: auto;
+}
+
+#lives{
+    text-align: center;
+}
+
+#btnUp{
+    position: absolute;
+    top: 50vh;
+    right: 5vw;
+}
+#btnDown{
+    position: absolute;
+    top: 60vh;
+    right: 5vw;
+}
+#btnBack{
+    display: block;
+    margin-top: 10px;
+    margin: auto;
+}
+
+@media (max-width:1000px){
+    #paintbox{
+        margin-top: 50px;
+        width: 600px;
+    }
+}
+
+@media (max-width:800px){
+    #paintbox{
+        width: 500px;
+    }
+    #btnUp{
+        position: relative;
+        display: inline-block;
+        top: 0;
+        right: 0;
+        margin: 20px;
+    }
+    #btnDown{
+        position: relative;
+        display: inline-block;
+        top: 0;
+        right: 0;
+        margin: 20px;
+    }
+    .outerwrap{
+        margin: 20px;
+        text-align: center;
+    }
+}
+@media (max-width:600px){
+    #paintbox{
+        width: 400px;
+    }
+    
+}

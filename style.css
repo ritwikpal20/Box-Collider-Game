@@ -1,70 +1,18 @@
 body{
-    background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)),url("./josh-rose-9YQGFzg0RiM-unsplash.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("./josh-rose-9YQGFzg0RiM-unsplash.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
+    overflow: hidden;
 }
 
-#heading{
-    text-align: center;
-
-}
-#paintbox{
+.btn{
     display: block;
-    border: solid 1px black;
     margin: auto;
+    margin-top: 50px
 }
 
-#lives{
-    text-align: center;
-}
-
-#btnUp{
-    position: absolute;
-    top: 50vh;
-    right: 5vw;
-}
-#btnDown{
-    position: absolute;
-    top: 60vh;
-    right: 5vw;
-}
-
-
-@media (max-width:1000px){
-    #paintbox{
-        margin-top: 50px;
-        width: 600px;
-    }
-}
-
-@media (max-width:800px){
-    #paintbox{
-        width: 500px;
-    }
-    #btnUp{
-        position: relative;
-        display: inline-block;
-        top: 0;
-        right: 0;
-        margin: 20px;
-    }
-    #btnDown{
-        position: relative;
-        display: inline-block;
-        top: 0;
-        right: 0;
-        margin: 20px;
-    }
-    .outerwrap{
-        margin: 20px;
-        text-align: center;
-    }
-}
-@media (max-width:600px){
-    #paintbox{
-        width: 400px;
-    }
-    
+.firstPage{
+    margin-top: 40vh;
 }
