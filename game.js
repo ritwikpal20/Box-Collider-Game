@@ -24,6 +24,7 @@ class Player extends Box {
     }
     move() {
         this.x += this.speed
+        this.y += this.yspeed
     }
 }
 
@@ -51,12 +52,9 @@ class Bullet extends Box {
     }
 }
 
-
+//this interval is responsible for continously firing bullets 
 let bulletAndPlayerId = setInterval(() => {
     let b = new Bullet(5)
-    // if (!gameOn) {
-
-    // }
     function fire() {
         context.clearRect(b.x, b.y, b.size, b.size)
         b.move()
@@ -110,6 +108,7 @@ function isCollided(enemy, player) {
 }
 
 
+
 function drawBox(box) {
     context.fillStyle = box.color
     context.fillRect(box.x, box.y, box.size, box.size)
@@ -120,191 +119,79 @@ function drawBox(box) {
 let btnUp = document.getElementById('btnUp')
 let btnDown = document.getElementById('btnDown')
 
-let yspeedClearIntervalIdUp
+
+//btnUp and btnDown eventlisteners for mouse and pointer
 btnUp.addEventListener('mousedown', () => {
-    player.yspeed = 3
-    yspeedClearIntervalIdUp = setInterval(() => {
-        if (player.y < 0)
-            clearInterval(yspeedClearIntervalIdUp)
-        else {
-            context.clearRect(player.x, player.y, player.size, player.size)
-            player.y -= player.yspeed
-            drawBox(player)
-        }
-    }, 0)
+    player.yspeed = -10
 })
 btnUp.addEventListener('mouseup', () => {
     player.yspeed = 0
-    clearInterval(yspeedClearIntervalIdUp)
+})
+btnDown.addEventListener('mousedown', () => {
+    player.yspeed = 10
+})
+btnDown.addEventListener('mouseup', () => {
+    player.yspeedmouse
 })
 
 btnUp.addEventListener('pointerdown', () => {
-    player.yspeed = 3
-    yspeedClearIntervalIdUp = setInterval(() => {
-        if (player.y < 0)
-            clearInterval(yspeedClearIntervalIdUp)
-        else {
-            context.clearRect(player.x, player.y, player.size, player.size)
-            player.y -= player.yspeed
-            drawBox(player)
-        }
-    }, 0)
+    player.yspeed = -10
 })
 btnUp.addEventListener('pointerup', () => {
     player.yspeed = 0
-    clearInterval(yspeedClearIntervalIdUp)
 })
-
-
-
-
-let yspeedClearIntervalIdDown
-btnDown.addEventListener('mousedown', () => {
-    player.yspeed = 3
-    yspeedClearIntervalIdDown = setInterval(() => {
-        if (player.y + player.size > 450)
-            clearInterval(yspeedClearIntervalIdDown)
-        else {
-            context.clearRect(player.x, player.y, player.size, player.size)
-            player.y += player.yspeed
-            drawBox(player)
-        }
-    }, 0)
-})
-btnDown.addEventListener('mouseup', () => {
-    player.yspeed = 0
-    clearInterval(yspeedClearIntervalIdDown)
-})
-
 btnDown.addEventListener('pointerdown', () => {
-    player.yspeed = 3
-    yspeedClearIntervalIdDown = setInterval(() => {
-        if (player.y + player.size > 450)
-            clearInterval(yspeedClearIntervalIdDown)
-        else {
-            context.clearRect(player.x, player.y, player.size, player.size)
-            player.y += player.yspeed
-            drawBox(player)
-        }
-    }, 0)
+    player.yspeed = 10
 })
 btnDown.addEventListener('pointerup', () => {
     player.yspeed = 0
-    clearInterval(yspeedClearIntervalIdDown)
 })
 
 
 
 
-window.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case "ArrowDown":
-            player.yspeed = 4
-            yspeedClearIntervalIdDown = setInterval(() => {
-                if (player.y + player.size > 450)
-                    clearInterval(yspeedClearIntervalIdDown)
-                else {
-                    context.clearRect(player.x, player.y, player.size, player.size)
-                    player.y += player.yspeed
-                    drawBox(player)
-                }
-            }, 0)
-            break;
-        case "ArrowUp":
-            player.yspeed = 4
-            yspeedClearIntervalIdUp = setInterval(() => {
-                if (player.y < 0)
-                    clearInterval(yspeedClearIntervalIdUp)
-                else {
-                    context.clearRect(player.x, player.y, player.size, player.size)
-                    player.y -= player.yspeed
-                    drawBox(player)
-                }
-            }, 0)
-            break;
-        case "ArrowRight":
-            player.speed = 10
-            break;
-        default:
-            return; // Quit when this doesn't handle the key event.
-    }
-})
+//Event Listener when a key is released
 window.addEventListener("keyup", (event) => {
-    switch (event.key) {
-        case "ArrowDown":
-            player.yspeed = 0
-            clearInterval(yspeedClearIntervalIdDown)
-            break;
-        case "ArrowUp":
-            player.yspeed = 0
-            clearInterval(yspeedClearIntervalIdUp)
-            break;
-        case "ArrowRight":
-            player.speed = 0
-            break;
-        default:
-            return; // Quit when this doesn't handle the key event.
+    if (event.key == "ArrowDown") {
+        player.yspeed = 0
     }
+    else if (event.key == "ArrowUp") {
+        player.yspeed = 0
+    }
+    else if (event.key == "ArrowRight") {
+        player.speed = 0
+    }
+    else
+        return
 })
 
 
+//Event Listener when a key is pressed
+window.addEventListener("keydown", (event) => {
+    if (event.key == "ArrowDown") {
+        player.yspeed = 10
+    }
+    else if (event.key == "ArrowUp") {
+        player.yspeed = -10
+    }
+    else if (event.key == "ArrowRight") {
+        player.speed = 10
+    }
+    else
+        return
+})
 
-// function playerMovingDown() {
 
-//     if (player.y + player.size > 450)
-//         return
-//     else {
-//         context.clearRect(player.x, player.y, player.size, player.size)
-//         player.y += player.yspeed
-//         drawBox(player)
-//         window.requestAnimationFrame(playerMovingDown)
-//     }
-// }
-
-// function playerMovingUp() {
-//     if (player.y < 0)
-//         return
-//     else {
-//         context.clearRect(player.x, player.y, player.size, player.size)
-//         player.y -= player.yspeed
-//         drawBox(player)
-//         window.requestAnimationFrame(playerMovingUp)
-//     }
-
-// }
-
-// window.addEventListener("keydown", (event) => {
-//     if (event.key == "ArrowDown") {
-//         player.yspeed = 2
-//         playerMovingDown()
-//     }
-//     else if (event.key == "ArrowUp") {
-//         player.yspeed = 2
-//         playerMovingUp()
-//     }
-//     else if (event.key == "ArrowRight") {
-//         player.speed = 10
-//     }
-//     else
-//         return // Quit when this doesn't handle the key event.
-// })
-
-// window.addEventListener("keyup", (event) => {
-
-//     if (event.key == "ArrowDown") {
-//         player.yspeed = 0
-//     }
-
-//     if (event.key == "ArrowUp") {
-//         player.yspeed = 0
-//     }
-
-//     if (event.key == "ArrowRight")
-//         player.speed = 0
-//     else
-//         return; // Quit when this doesn't handle the key event.
-// })
-
+//Animate function to check the player doesnot goes out of canvas
+function keydownArrow() {
+    if (player.y < 0)
+        player.y = 0
+    if (player.y + player.size > 450)
+        player.y = 400
+    drawBox(player)
+    window.requestAnimationFrame(keydownArrow)
+}
+window.requestAnimationFrame(keydownArrow)
 
 
 
@@ -312,6 +199,7 @@ window.addEventListener("keyup", (event) => {
 paintbox.addEventListener('mousedown', () => {
     player.speed = 10
 })
+//pointerdown is used for mobiles
 paintbox.addEventListener('pointerdown', () => {
     player.speed = 10
 })
@@ -320,42 +208,24 @@ paintbox.addEventListener('pointerdown', () => {
 paintbox.addEventListener('mouseup', () => {
     player.speed = 0
 })
+//pointerup is used for mobiles
 paintbox.addEventListener('pointerup', () => {
     player.speed = 0
 })
 
-// This function doesnot gives us a smooth animation and the box passes the canvas
-// setInterval(() => {
-//     context.clearRect(0, 0, 500, 500)
-//     e1.y += e1.speed
-//     e2.y += e2.speed
-//     drawBox(e1)
-//     drawBox(e2)
-// }, 0)
-
-//requestAnimaitionFrame() helps us get smooth animation
-// function updateGame() {
-//     window.requestAnimationFrame(() => {
-//         context.clearRect(0, 0, 500, 500)
-//         e1.move()
-//         e2.move()
-//         drawBox(e1)
-//         drawBox(e2)
-//         updateGame()
-//     })
-
-// }
-// updateGame()
 
 
-//We can the use requestAnimationFrame() this way as well
+
+//gameLoop runs the animation of moving big enemies
 function gameLoop() {
+
+    //clearing each element before they get repainted again
     context.clearRect(player.x, player.y, player.size, player.size)
     context.clearRect(e1.x, e1.y, e1.size, e1.size)
     context.clearRect(e2.x, e2.y, e2.size, e2.size)
     context.clearRect(e3.x, e3.y, e3.size, e3.size)
     context.clearRect(e4.x, e4.y, e4.size, e4.size)
-    //context.clearRect(0, 0, 1000, 1000)
+
 
     player.move()
     e1.move()
@@ -373,7 +243,6 @@ function gameLoop() {
             player.x = player.x - 2 * player.size
         }, 0)
 
-
         player.speed = 0
 
         lives.innerText = `Lives left : ${count}`
@@ -390,19 +259,17 @@ function gameLoop() {
     drawBox(e2)
     drawBox(e3)
     drawBox(e4)
-    // if (!gameOn) {
 
-    // }
     if (gameOn)
         window.requestAnimationFrame(gameLoop)
 }
 if (gameOn)
     gameLoop()
 
-console.log("This line gets printed")
 
+//Checks at each 100ms whether the player has reached the finish line
 let WinId = setInterval(() => {
-    if (player.x > paintbox.width) {
+    if (player.x > paintbox.width - 50) {
         alert("You Win the Game. Play again!!!")
         location.reload()
         clearInterval(WinId)
