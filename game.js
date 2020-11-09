@@ -131,7 +131,7 @@ btnDown.addEventListener('mousedown', () => {
     player.yspeed = 10
 })
 btnDown.addEventListener('mouseup', () => {
-    player.yspeedmouse
+    player.yspeed = 0
 })
 
 btnUp.addEventListener('pointerdown', () => {
